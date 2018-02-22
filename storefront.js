@@ -34,7 +34,7 @@ function store() {
     promptforchoice();
 
   });
-  // connection.end();
+
 };
 
 store();
@@ -97,7 +97,7 @@ function promptforpurchase() {
       message: "We have " + remaininginventory + " " + item + "'s left. Would you like to purchase?"
     }]).then(function(answers) {
       if (answers.purchasechoiceone == "Yes") {
-        // console.log("Congratuations, you are the proud new owner of " + item + ". Your shipment should arrive within 10 to 12 to 14 weeks.");
+
         howmany();
       } else {
         console.log("Way to not support small businesses. Keep browsing and maybe think about someone other than yourself");
@@ -114,9 +114,7 @@ function promptforpurchase() {
       if (answers.purchasechoiceone == "Yes") {
         howmuch = 1;
         determinecost();
-        // console.log("Congratuations, you are the proud new owner of " + item + ". Your shipment should arrive within 10 to 12 to 14 weeks.");
-        // updatestore();
-        // store();
+
       } else {
         console.log("Way to not support small businesses. Keep browsing and maybe think about someone other than yourself");
         store();
@@ -152,8 +150,8 @@ function howmany (){
     .then(function(answers) {
       howmuch = answers.quantity;
       determinecost();
-      updatestore();
-      store();
+      // updatestore();
+      // store();
     });
 }
 
