@@ -150,8 +150,7 @@ function howmany (){
     .then(function(answers) {
       howmuch = answers.quantity;
       determinecost();
-      // updatestore();
-      // store();
+      
     });
 }
 
