@@ -10,6 +10,9 @@ var remainingstock;
 var newtotalinventory;
 departments = [];
 var deptchosen;
+var newproductname;
+var newproductprice;
+var newproductinventory;
 
 
 var connection = mysql.createConnection({
@@ -177,12 +180,35 @@ function addproduct(){
               done(null, true);
             }
           }
-        }]).then(function(answers) {
+        },{
+          type: "input",
+          name: "newprice",
+          message: "What is the price?",
+          validate: function(input) {
+            var done = this.async();
+
+            if (input == "I am an idiot") {
+              done(null, true);
+
+            }
+            if (isNaN(input)) {
+              done('That is not a number. Please try again');
+              return false;
+
+            } else if (input === "0") {
+              done('You have entered 0. There is nothing to update. Please try again. If you have mistakenly opened this menu and have no new inventory, please type I am an idiot');
+              return false;
+            } else {
+              done(null, true);
+            }
+          }
+      }]).then(function(answers) {
           if (answers.amount === "I am an idiot"){
             console.log("Yup, you are.");
             prompt();
           }
           newproductinventory = answers.amount;
+          newproductprice = answers.newprice;
           inquirer.prompt([{
             type: "input",
             name: "productnew",
@@ -198,7 +224,20 @@ function addproduct(){
             }]).then(function(answers){
               if (answers.confirm === "Yes"){
                 //query stuff
-                console.log("adding");
+                //add price question
+                newproductinventory = parseInt(newproductinventory);
+                newproductprice = parseInt(newproductprice);
+                var query = "INSERT INTO Inventory (Item, Department, Price, Stock) VALUES (?,?,?,?)";
+                connection.query(query, [newproductname, deptchosen, newproductprice, newproductinventory], function(err, res) {
+                  if(err) {
+                    throw err;
+                  } else{
+                    console.log("added!");
+                    prompt();
+                  }
+
+              })
+
               } else {
                 console.log("Operation Aborted");
                 prompt();
@@ -207,6 +246,5 @@ function addproduct(){
           })
         })
       })
-
-  });
-}
+    })
+  }
